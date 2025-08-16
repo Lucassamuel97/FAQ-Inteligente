@@ -1,0 +1,71 @@
+# Arquivos de ambiente
+.env
+.env.local
+.env.production
+
+/src/.env
+
+# Logs
+logs/
+*.log
+
+# Banco de dados
+*.sql
+*.sqlite
+*.db
+
+# Cache e arquivos temporários
+cache/
+tmp/
+temp/
+*.tmp
+*.temp
+/logs/
+
+# Dependências
+vendor/
+node_modules/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos de backup
+*.bak
+*.backup
+*.old
+
+# Arquivos de configuração local
+config.local.php
+database.local.php
+
+# Arquivos de upload
+uploads/
+files/
+
+# Arquivos de sessão
+sessions/
+
+# Arquivos de cache do PHP
+*.cache
+
+# Arquivos de teste
+tests/
+test-results/
+
+# Arquivos de build
+build/
+dist/
+
+# Arquivos Docker
+.dockerignore
+docker-compose.override.yml 
