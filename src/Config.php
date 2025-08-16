@@ -14,20 +14,13 @@ class Config
     public static function init()
     {
         // Carregar arquivo .env se existir
-        $envFile = __DIR__ . '/../.env';
-        if (file_exists($envFile)) {
-            $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if (file_exists(__DIR__ . '/.env')) {
+            $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             foreach ($lines as $line) {
                 if (strpos($line, '=') !== false && strpos($line, '#') !== 0) {
                     list($key, $value) = explode('=', $line, 2);
                     $key = trim($key);
-                    $value = trim($value);
-                    
-                    // Remover aspas se existirem
-                    if (preg_match('/^"(.*)"$/', $value, $matches)) {
-                        $value = $matches[1];
-                    }
-                    
+                    $value = trim($value, '"\'');
                     self::$config[$key] = $value;
                 }
             }
@@ -44,27 +37,27 @@ class Config
             'EMBEDDING_MODEL' => 'models/embedding-001',
             'EMBEDDING_DIMENSIONS' => '768',
             'MAX_RESULTS' => '3',
-            'SIMILARITY_THRESHOLD' => '0.1',
+            'SIMILARITY_THRESHOLD' => '0.3',
             'APP_NAME' => 'Sistema MCP RAG - Prefeitura',
             'APP_ENV' => 'development',
             'APP_DEBUG' => 'true',
-            'APP_URL' => 'http://localhost:8000'
+            'APP_URL' => 'http://localhost:8080'
         ];
         
-        // Mesclar configurações padrão com as do arquivo .env
+        // Mesclar configurações
         foreach ($defaults as $key => $value) {
             if (!isset(self::$config[$key])) {
                 self::$config[$key] = $value;
             }
         }
         
-        // Sobrescrever com variáveis de ambiente do sistema se existirem
-        foreach (self::$config as $key => $value) {
-            $envValue = getenv($key);
-            if ($envValue !== false) {
-                self::$config[$key] = $envValue;
-            }
-        }
+        // Configurações do banco de dados
+        self::$config['DB_DSN'] = sprintf(
+            'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4;collation=utf8mb4_unicode_ci',
+            self::$config['DB_HOST'],
+            self::$config['DB_PORT'],
+            self::$config['DB_NAME']
+        );
     }
     
     /**
@@ -72,7 +65,7 @@ class Config
      */
     public static function get($key, $default = null)
     {
-        if (empty(self::$config)) {
+        if (!self::$config) {
             self::init();
         }
         
@@ -92,7 +85,7 @@ class Config
      */
     public static function has($key)
     {
-        if (empty(self::$config)) {
+        if (!self::$config) {
             self::init();
         }
         
@@ -104,7 +97,7 @@ class Config
      */
     public static function all()
     {
-        if (empty(self::$config)) {
+        if (!self::$config) {
             self::init();
         }
         
@@ -117,25 +110,15 @@ class Config
     public static function getDatabaseConfig()
     {
         return [
-            'host' => self::get('DB_HOST'),
-            'dbname' => self::get('DB_NAME'),
+            'dsn' => self::get('DB_DSN'),
             'username' => self::get('DB_USER'),
             'password' => self::get('DB_PASS'),
-            'port' => self::get('DB_PORT')
-        ];
-    }
-    
-    /**
-     * Obtém configurações do Gemini
-     */
-    public static function getGeminiConfig()
-    {
-        return [
-            'api_key' => self::get('GEMINI_API_KEY'),
-            'embedding_model' => self::get('EMBEDDING_MODEL'),
-            'embedding_dimensions' => (int) self::get('EMBEDDING_DIMENSIONS'),
-            'max_results' => (int) self::get('MAX_RESULTS'),
-            'similarity_threshold' => (float) self::get('SIMILARITY_THRESHOLD')
+            'options' => [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
+            ]
         ];
     }
 }
