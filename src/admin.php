@@ -159,18 +159,6 @@ if (!empty($filters)) {
                 <i class="fas fa-file-alt me-2"></i>
                 Documentos
             </a>
-            <a class="nav-link" href="#categories">
-                <i class="fas fa-tags me-2"></i>
-                Categorias
-            </a>
-            <a class="nav-link" href="#users">
-                <i class="fas fa-users me-2"></i>
-                Usuários
-            </a>
-            <a class="nav-link" href="#settings">
-                <i class="fas fa-cog me-2"></i>
-                Configurações
-            </a>
             <a class="nav-link" href="index.php">
                 <i class="fas fa-home me-2"></i>
                 Voltar ao Site

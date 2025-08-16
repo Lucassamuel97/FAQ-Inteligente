@@ -40,8 +40,8 @@ Um sistema completo de FAQ dinâmico baseado em inteligência artificial que uti
 
 ### 1. Clone o repositório
 ```bash
-git clone <repository-url>
-cd mcp
+git clone https://github.com/Lucassamuel97/FAQ-Inteligente.git
+cd FAQ-Inteligente
 ```
 
 ### 2. Configure as variáveis de ambiente
@@ -187,9 +187,6 @@ docker-compose logs app
 - **Cache de Embeddings**: Evita reprocessamento
 - **Chunking Inteligente**: Divisão otimizada de documentos
 - **Pool de Conexões**: Gerenciamento eficiente de recursos
-
-
-```
 
 
 ### Contribuições
