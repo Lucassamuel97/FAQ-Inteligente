@@ -18,8 +18,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Configurar diretório de trabalho
 WORKDIR /var/www/html
 
-# Copiar arquivos de configuração
-COPY src/ /var/www/html/
+# Copiar arquivos de configuração primeiro
+COPY .env* ./
+
+# Copiar código da aplicação
+COPY src/ ./
 
 # Definir permissões
 RUN chown -R www-data:www-data /var/www/html \

@@ -1,6 +1,13 @@
 -- Script de inicialização do banco de dados MCP RAG
 -- Sistema de FAQ Dinâmico para Prefeitura
 
+-- Forçar configuração UTF-8
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+SET character_set_connection = utf8mb4;
+SET character_set_client = utf8mb4;
+SET character_set_results = utf8mb4;
+
 USE mcp_rag;
 
 -- Tabela de documentos (leis, regulamentos, serviços)
@@ -100,7 +107,7 @@ INSERT INTO categorias (nome, descricao, cor, icone) VALUES
 
 -- Inserir usuário administrador padrão (senha: admin123)
 INSERT INTO usuarios (nome, email, senha, nivel) VALUES
-('Administrador', 'admin@prefeitura.gov.br', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+('Administrador', 'admin@prefeitura.gov.br', '$2y$12$XOJ1necnRgMP28Wz0pThOOr2VkXjCj4GEbOnIYgi/w9LB/cMkax6C', 'admin');
 
 -- Inserir alguns documentos de exemplo
 INSERT INTO documentos (titulo, conteudo, tipo, categoria, numero_documento, data_publicacao) VALUES
